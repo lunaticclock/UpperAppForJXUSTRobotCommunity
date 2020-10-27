@@ -1,5 +1,5 @@
 ﻿//# define Firewall
-//# define File
+# define File
 
 using System;
 using System.Collections.Generic;
