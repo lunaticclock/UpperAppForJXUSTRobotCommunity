@@ -17,19 +17,12 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Data;
-<<<<<<< HEAD
 using InTheHand.Net.Bluetooth;
 using InTheHand.Net.Sockets;
 
 #if Firewall
     using NetFwTypeLib;
 #endif
-=======
-
-# if Firewall
-    using NetFwTypeLib;
-# endif
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
 
 namespace UpperApp
 {
@@ -52,7 +45,6 @@ namespace UpperApp
         private int px, py, dx, dy, bx, by;
         private short pflag = 0;
         private Socket socket = null;
-<<<<<<< HEAD
         private Socket bthsocket = null;
         private Thread thread = null;
         private Thread BthCon = null;
@@ -61,11 +53,6 @@ namespace UpperApp
         private BluetoothListener listener = null;
         private BluetoothClient BthClient = null;
         private Thread Bthlisten = null;
-=======
-        private Thread thread = null;
-        private UdpClient UdpClientSend = null;
-        private UdpClient UdpClientReceive = null;
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
         private Thread ReceThread = null;
         private Dictionary<string, Socket> TCPdic = new Dictionary<string, Socket>();
         private List<string> UDPlist = new List<string>();
@@ -73,10 +60,7 @@ namespace UpperApp
         private TextBox[] texts = new TextBox[8];
         private Button[] btn = new Button[8];
         private StreamWriter tf =null;
-<<<<<<< HEAD
         private BluetoothRadio br = null;
-=======
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
      //   private delegate void clk(int i);
 
         public UpperApp()
@@ -137,14 +121,10 @@ namespace UpperApp
             btn[5] = btnMsg6;
             btn[6] = btnMsg7;
             btn[7] = btnMsg8;
-<<<<<<< HEAD
             //for (int i = 0; i < 8; i++)
             //{
             //    btn[i].Click += new EventHandler((sender, e) => { btn_Click(i); });
             //}
-=======
-
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
             this.btn[0].Click += new EventHandler((sender, e) => { btn_Click(0); });
             this.btn[1].Click += new EventHandler((sender, e) => { btn_Click(1); });
             this.btn[2].Click += new EventHandler((sender, e) => { btn_Click(2); });
@@ -178,11 +158,7 @@ namespace UpperApp
             serialPort1.Encoding = Encoding.GetEncoding("GB2312");
             Tim.Text = "1000";
             GetLocalIP();
-<<<<<<< HEAD
             
-=======
-
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
             #if File
                 if (!File.Exists("Buffer.log"))
                 {
@@ -207,7 +183,6 @@ namespace UpperApp
                     INetFwMgr netFwMgr = (INetFwMgr)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwMgr"));
                     INetFwAuthorizedApplication app = (INetFwAuthorizedApplication)Activator.CreateInstance(
                         Type.GetTypeFromProgID("HNetCfg.FwAuthorizedApplication"));
-<<<<<<< HEAD
 
                     //在例外列表里，程序显示的名称  
                     app.Name = name;
@@ -218,18 +193,6 @@ namespace UpperApp
                     //是否启用该规则
                     app.Enabled = true;
 
-=======
-
-                    //在例外列表里，程序显示的名称  
-                    app.Name = name;
-
-                    //程序的路径及文件名  
-                    app.ProcessImageFileName = executablePath;
-
-                    //是否启用该规则
-                    app.Enabled = true;
-
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
                     //创建firewall管理类的实例  
                     //加入到防火墙的管理策略  
             
@@ -316,7 +279,6 @@ namespace UpperApp
             {
                 sn += n;
                 label22.Text = sn.ToString();
-<<<<<<< HEAD
             }
         }
 
@@ -338,29 +300,6 @@ namespace UpperApp
             }
         }
 
-=======
-            }
-        }
-
-        private void ResetRS(RecvOrSend rs)
-        {
-            if (rs == RecvOrSend.Recv)
-            {
-                rn = 0;
-                label18.Text = rn.ToString();
-                RecvBox.Text = "";
-                Infotext.Text = "接收区已清空";
-            }
-            else
-            {
-                sn = 0;
-                label22.Text = sn.ToString();
-                SendBox.Text = "";
-                Infotext.Text = "发送区已清空";
-            }
-        }
-
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
         private void UpperApp_Load(object sender, EventArgs e)
         {
             EventHandler<BluetoothWin32AuthenticationEventArgs> handler = new EventHandler<BluetoothWin32AuthenticationEventArgs>(HandleRequests);
@@ -413,7 +352,6 @@ namespace UpperApp
             string[] st = s.Trim().Split(' ');
             byte[] b = new byte[st.Length];
             string result = string.Empty;
-<<<<<<< HEAD
             try//按照指定编码将string编程字节数组
             {
                 for (int i = 0; i < st.Length; i++)//以十六进制将字符串转换成字节
@@ -426,19 +364,6 @@ namespace UpperApp
                 MessageBox.Show(this,"请将每字节间以空格分开");
             }
             
-=======
-            try
-            {
-                for (int i = 0; i < st.Length; i++)//逐字节变为16进制字符，以%隔开
-                {
-                    b[i] = Convert.ToByte(st[i], 16);
-                }
-            }
-            catch
-            {
-                MessageBox.Show(this,"请将每字节间以空格分开");
-            }
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
             result = Encoding.ASCII.GetString(b).ToString();
             return result;
         }
@@ -458,11 +383,7 @@ namespace UpperApp
                 }// if (serialPort1.IsOpen)
                 else
                     Infotext.Text = "串口未打开！";
-<<<<<<< HEAD
             }//if (rbtnSerial.Checked)
-=======
-            }//if (radioButton4.Checked)
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
             else if (rbtnNET.Checked)
             {
                 if (btnListen.Text == "停止监听")
@@ -490,11 +411,7 @@ namespace UpperApp
                             TCPdic.Remove(Peer.Text);
                             Peer.Text = "";
                         }
-<<<<<<< HEAD
                     }//if (NetType.Text == "TCP")
-=======
-                    }//if (comboBox3.Text == "TCP")
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
                     else if (NetType.Text == "UDP")
                     {
                         UDP_Send(Buf);
@@ -581,11 +498,7 @@ namespace UpperApp
                 if (!receiveFromNew.Equals(receiveFromOld))
                 {
                     receiveFromOld = receiveFromNew;
-<<<<<<< HEAD
                     string str_From = string.Format("\r\nfrom {0}:\r\n", receiveFromNew);
-=======
-                    string str_From = String.Format("\r\nfrom {0}:\r\n", receiveFromNew);
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
                     RecvBox.AppendText(str_From);
                 }
 
@@ -702,10 +615,6 @@ namespace UpperApp
                 {
                     byte[] buffer = new byte[1024 * 1024];
                     int n = client.Receive(buffer);
-<<<<<<< HEAD
-=======
-
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
                     if (n == 0)
                     {
                         StringBuilder key = new StringBuilder();
@@ -787,7 +696,6 @@ namespace UpperApp
 
         private void BthDispBtn_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
             if (br == null)
             {
                 br = BluetoothRadio.PrimaryRadio;
@@ -983,17 +891,6 @@ namespace UpperApp
                     IPEndPoint LocalIPEndPoint = new IPEndPoint(LocalIP, LocalPort);
                     if (NetType.Text == "TCP")
                     {
-=======
-            if (btnListen.Text == "开始监听")
-            {
-                if (HostIP.Text != "")
-                {
-                    IPAddress LocalIP = IPAddress.Parse(HostIP.Text);
-                    int LocalPort = int.Parse(Port.Text);
-                    IPEndPoint LocalIPEndPoint = new IPEndPoint(LocalIP, LocalPort);
-                    if (NetType.Text == "TCP")
-                    {
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
                         //使用IPv4地址，流式socket方式，tcp协议传递数据
                         socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -1489,11 +1386,8 @@ namespace UpperApp
             int screenRight = Screen.PrimaryScreen.Bounds.Right;//屏幕右边缘
             int formRight = this.Left + this.Size.Width;//窗口右边缘=窗口左上角x+窗口宽度
             int screenBottom = Screen.PrimaryScreen.Bounds.Bottom;//屏幕下边缘
-<<<<<<< HEAD
             int screenTop = Screen.PrimaryScreen.Bounds.Top;//屏幕上边缘
             int screenLeft = Screen.PrimaryScreen.Bounds.Left;//屏幕左边缘
-=======
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
             int workspace = Screen.PrimaryScreen.WorkingArea.Bottom;
             int formBottom = this.Top + this.Size.Height;//窗口下边缘
 

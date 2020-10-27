@@ -19,7 +19,6 @@ G:\Workspace\C++\小车上位机\WindowsFormsApp1\obj\Debug\UpperApp.Properties.
 G:\Workspace\C++\小车上位机\WindowsFormsApp1\obj\Debug\小车上位机V5.0.exe
 G:\Workspace\C++\小车上位机\WindowsFormsApp1\obj\Debug\小车上位机V5.0.pdb
 G:\Workspace\C++\小车上位机\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojAssemblyReference.cache
-<<<<<<< HEAD
 D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\bin\Debug\小车上位机V5.0.exe.config
 D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\bin\Debug\小车上位机V5.0.exe
 D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\bin\Debug\小车上位机V5.0.pdb
@@ -34,5 +33,3 @@ D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\obj\Debug
 D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CopyComplete
 D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\obj\Debug\小车上位机V5.0.exe
 D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\obj\Debug\小车上位机V5.0.pdb
-=======
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315

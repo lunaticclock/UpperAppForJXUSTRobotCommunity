@@ -30,7 +30,6 @@ G:\Workspace\C#\小车上位机\WindowsFormsApp1\obj\Release\WindowsFormsApp1.cs
 G:\Workspace\C#\小车上位机\WindowsFormsApp1\obj\Release\WindowsFormsApp1.csproj.CoreCompileInputs.cache
 G:\Workspace\C#\小车上位机\WindowsFormsApp1\obj\Release\小车上位机V5.0.exe
 G:\Workspace\C#\小车上位机\WindowsFormsApp1\obj\Release\小车上位机V5.0.pdb
-<<<<<<< HEAD
 D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\obj\Release\小车上位机V5.0.exe
 D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\obj\Release\小车上位机V5.0.pdb
 D:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\bin\Release\小车上位机V5.0.exe.config
@@ -63,5 +62,3 @@ E:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\bin\Relea
 E:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\bin\Release\小车上位机V5.0.pdb
 E:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\bin\Release\InTheHand.Net.Personal.xml
 E:\Workspace\C#\UpperAppForJXUSTRobotCommunity-master\WindowsFormsApp1\obj\Release\WindowsFormsApp1.csproj.CopyComplete
-=======
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315

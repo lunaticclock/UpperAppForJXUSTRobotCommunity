@@ -59,7 +59,7 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>Custom</TargetZone>
@@ -158,10 +158,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="WindowsFormsApp1_1_TemporaryKey.pfx" />
-<<<<<<< HEAD
-=======
-    <None Include="WindowsFormsApp1_TemporaryKey.pfx" />
->>>>>>> 2bfde2830620429c6528bf7837e00f52d2012315
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
