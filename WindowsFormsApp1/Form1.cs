@@ -331,7 +331,7 @@ namespace UpperApp
             }
         }
 
-        private void Str2Hexstr(string str)
+        private string Str2Hexstr(string str)
         {
             string result = string.Empty;
             for (int i = 0; i < str.Length; i++)//逐字节变为16进制字符，以%隔开
@@ -341,10 +341,7 @@ namespace UpperApp
                     add = "0" + add;
                 result += " " + add;
             }
-            result += "\r\n";
-            RecvBox.AppendText(result);
-            if (tf != null)
-                tf.WriteLine(getTime() + result);
+            return result;
         }
 
         private string Str2Hex(string s)
@@ -445,37 +442,7 @@ namespace UpperApp
             byte[] Buf = new byte[n];
             serialPort1.Read(Buf, 0, n);
             string str = Encoding.Default.GetString(Buf);
-            SetRS(n, RecvOrSend.Recv);
-
-            if (AngDirDisp.Checked)
-            {
-                if (str.Contains("/OVER"))
-                {
-                    int num = str.IndexOf(':');
-                    string data = str.Remove(0, num + 1);
-                    num = data.IndexOf('/');
-                    data = data.Substring(0, num);
-                    if (str.Contains("YAW:"))
-                        LabYaw.Text = data.ToString();
-                    else if (str.Contains("PITCH:"))
-                        LabPitch.Text = data.ToString();
-                    else if (str.Contains("ROLL:"))
-                        LabRoll.Text = data.ToString();
-                    else if (str.Contains("DISTANCE:"))
-                        LabDist.Text = data.ToString();
-                }
-            }
-
-            if (rbtnChar.Checked)
-            {
-                RecvBox.AppendText(str);
-                if (tf != null)
-                    tf.WriteLine(getTime() + str);
-            }
-            else if (rbtnHex.Checked)
-            {
-                Str2Hexstr(str);
-            }
+            ShowProcess(str, n);
         }
 
         private void ReceProcess()//UDPRecv
@@ -491,51 +458,15 @@ namespace UpperApp
                 byte[] ReceiveBytes = UdpClientReceive.Receive(ref remoteIpAndPort);
                 cnt = ReceiveBytes.Length;
                 receiveFromNew = remoteIpAndPort.ToString();
-                if (UDPlist.IndexOf(receiveFromNew) == -1)
-                {
-                    UDPlist.Add(receiveFromNew);
-                }
-                if (!receiveFromNew.Equals(receiveFromOld))
-                {
-                    receiveFromOld = receiveFromNew;
-                    string str_From = string.Format("\r\nfrom {0}:\r\n", receiveFromNew);
-                    RecvBox.AppendText(str_From);
-                }
-
                 string str = Encoding.Default.GetString(ReceiveBytes, 0, cnt);
 
-                //界面显示
+                ShowProcess(str, cnt, !receiveFromNew.Equals(receiveFromOld) ? receiveFromNew : "");
 
-                if (AngDirDisp.Checked)
-                {
-                    if (str.Contains("/OVER"))
-                    {
-                        int num = str.IndexOf(':');
-                        string data = str.Remove(0, num + 1);
-                        num = data.IndexOf('/');
-                        data = data.Substring(0, num);
-                        if (str.Contains("YAW:"))
-                            LabYaw.Text = data.ToString();
-                        else if (str.Contains("PITCH:"))
-                            LabPitch.Text = data.ToString();
-                        else if (str.Contains("ROLL:"))
-                            LabRoll.Text = data.ToString();
-                        else if (str.Contains("DISTANCE:"))
-                            LabDist.Text = data.ToString();
-                    }
-                }
 
-                if (rbtnChar.Checked)
-                {
-                    RecvBox.AppendText(str);
-                    if (tf != null)
-                        tf.WriteLine(getTime() + str);
-                }
-                else if (rbtnHex.Checked)
-                    Str2Hexstr(str);
-
-                //label18.Text = (int.Parse(label18.Text) + cnt).ToString();
-                SetRS(cnt, RecvOrSend.Recv);
+                if (UDPlist.IndexOf(receiveFromNew) == -1)
+                    UDPlist.Add(receiveFromNew);
+                if (!receiveFromNew.Equals(receiveFromOld))
+                    receiveFromOld = receiveFromNew;
             }//while(True)
         }
 
@@ -617,81 +548,84 @@ namespace UpperApp
                     int n = client.Receive(buffer);
                     if (n == 0)
                     {
-                        StringBuilder key = new StringBuilder();
-                        foreach (string s in TCPdic.Keys)
-                        {
-                            if (TCPdic[s].Equals(client))
-                            {
-                                key.Append(s);
-                                break;
-                            }
-                        }
-                        string k = key.ToString();
-                        if (k != "")
-                        {
-                            TCPdic.Remove(k);
-                            Peer.Text = "";
-                        }
+                        RemoveSocket(client);
                         break;
                     }
                     else
                     {
                         string str = Encoding.UTF8.GetString(buffer, 0, n);
-                        //label18.Text = (int.Parse(label18.Text) + n).ToString();
-                        SetRS(n, RecvOrSend.Recv);
-                        if (rbtnChar.Checked)
-                        {
-                            string EndPoint = client.RemoteEndPoint.ToString();
-                            RecvBox.AppendText(EndPoint + ":\r\n" + str + "\r\n");
-                            if (tf != null)
-                                tf.WriteLine(getTime() + EndPoint + ":\r\n" + str + "\r\n");
-                        }
-                        else if (rbtnHex.Checked)
-                        {
-                            Str2Hexstr(str);
-                        }
+                        string EndPoint = client.RemoteEndPoint.ToString();
+                        str = EndPoint + ":\r\n" + str + "\r\n";
 
-                        if (AngDirDisp.Checked)
-                        {
-                            if (str.Contains("/OVER"))
-                            {
-                                int num = str.IndexOf(':');
-                                string data = str.Remove(0, num + 1);
-                                num = data.IndexOf('/');
-                                data = data.Substring(0, num);
-                                if (str.Contains("YAW:"))
-                                    LabYaw.Text = data.ToString();
-                                else if (str.Contains("PITCH:"))
-                                    LabPitch.Text = data.ToString();
-                                else if (str.Contains("ROLL:"))
-                                    LabRoll.Text = data.ToString();
-                                else if (str.Contains("DISTANCE:"))
-                                    LabDist.Text = data.ToString();
-                            }
-                        }//if (checkBox2.Checked)
+                        ShowProcess(str, n, EndPoint);
                     }//if (n == 0)
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(this, ex.Message, "error");
-                    StringBuilder key = new StringBuilder();
-                    foreach (string s in TCPdic.Keys)
-                    {
-                        if (TCPdic[s].Equals(client))
-                        {
-                            key.Append(s);
-                            break;
-                        }
-                    }
-                    string k = key.ToString();
-                    if (k != "")
-                    {
-                        TCPdic.Remove(k);
-                        Peer.Text = "";
-                    }
+                    RemoveSocket(client);
                     break;
                 }
             }//while (true)
+        }
+
+        public void ShowProcess(string str,int count, string EndPoint = "")
+        {
+            AngDirDisplay(str);
+            RecvBoxShow(str, EndPoint);
+            SetRS(count, RecvOrSend.Recv);
+        }
+
+        public void RemoveSocket(Socket client)
+        {
+            KeyValuePair<string, Socket> pair = TCPdic.Where((x) => { return x.Value.Equals(client); }).FirstOrDefault();
+            string k = pair.Key;
+            if (k != "")
+            {
+                TCPdic.Remove(k);
+                Peer.Text = "";
+            }
+        }
+
+        public void AngDirDisplay(string str)
+        {
+            if (AngDirDisp.Checked)
+            {
+                if (str.Contains("/OVER"))
+                {
+                    string[] attr = str.Split(':');
+                    string type = attr[0];
+                    string data = attr[1].Split('/')[0];
+                    switch (type)
+                    {
+                        case "YAW":
+                            LabYaw.Text = data;
+                            break;
+                        case "PITCH":
+                            LabPitch.Text = data;
+                            break;
+                        case "ROLL":
+                            LabRoll.Text = data;
+                            break;
+                        case "DISTANCE":
+                            LabDist.Text = data;
+                            break;
+                    }
+                }
+            }
+        }
+
+        public void RecvBoxShow(string str, string EndPoint = "")
+        {
+            if (rbtnHex.Checked)
+            {
+                str = Str2Hexstr(str);
+            }
+            if (!string.IsNullOrEmpty(EndPoint))
+                str = EndPoint + ":\r\n" + str + "\r\n";
+            RecvBox.AppendText(str);
+            if (tf != null)
+                tf.WriteLine(getTime() + str);
         }
 
         private void BthDispBtn_Click(object sender, EventArgs e)
@@ -796,7 +730,7 @@ namespace UpperApp
                     } 
                     string data = Encoding.UTF8.GetString(buffer, 0, n);
                     BthRecvBox.AppendText("Receiving data: " + data + "\r\n");
-                    SetRS(n, RecvOrSend.Recv);
+                    //SetRS(n, RecvOrSend.Recv);
                 }
                 catch//(Exception ex)
                 {

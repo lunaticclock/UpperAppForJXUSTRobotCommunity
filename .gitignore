@@ -3,3 +3,8 @@
 ################################################################################
 
 /.vs/WindowsFormsApp1
+/WindowsFormsApp1/bin
+/WindowsFormsApp1/obj
+/WindowsFormsApp1/publish
+/小车上位机V5.0.exe
+/WindowsFormsApp1/WindowsFormsApp1_1_TemporaryKey.pfx
