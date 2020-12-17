@@ -61,7 +61,10 @@ namespace UpperApp
         private Button[] btn = new Button[8];
         private StreamWriter tf =null;
         private BluetoothRadio br = null;
-     //   private delegate void clk(int i);
+        private string RecvBoxAddText { set { RecvBox.AppendText(value); } }
+        private string RecvBoxSetText { set { RecvBox.Text = value; } }
+        private string Info { set { Infotext.Text = value; } }
+        //   private delegate void clk(int i);
 
         public UpperApp()
         {
@@ -288,15 +291,15 @@ namespace UpperApp
             {
                 rn = 0;
                 label18.Text = rn.ToString();
-                RecvBox.Text = "";
-                Infotext.Text = "接收区已清空";
+                RecvBoxSetText = "";
+                Info = "接收区已清空";
             }
             else
             {
                 sn = 0;
                 label22.Text = sn.ToString();
                 SendBox.Text = "";
-                Infotext.Text = "发送区已清空";
+                Info = "发送区已清空";
             }
         }
 
@@ -376,10 +379,10 @@ namespace UpperApp
                     serialPort1.Write(buffer, 0, buffer.Length);
                     SetRS(buffer.Length, RecvOrSend.Send);
                     if (ReDisp.Checked)
-                        RecvBox.AppendText(Buf);
+                        RecvBoxAddText = Buf;
                 }// if (serialPort1.IsOpen)
                 else
-                    Infotext.Text = "串口未打开！";
+                    Info = "串口未打开！";
             }//if (rbtnSerial.Checked)
             else if (rbtnNET.Checked)
             {
@@ -391,14 +394,14 @@ namespace UpperApp
                         {
                             string ip = Peer.Text;
                             if (ip == "")
-                                Infotext.Text = "未选定端口";
+                                Info = "未选定端口";
                             else
                             {
                                 TCPdic[ip].Send(buffer);
                                 SetRS(buffer.Length,RecvOrSend.Send);
                                 if (ReDisp.Checked)
                                 {
-                                    RecvBox.AppendText(Buf);
+                                    RecvBoxAddText = Buf;
                                 }
                             }
                         }
@@ -479,7 +482,7 @@ namespace UpperApp
 
             if (IPAddress.TryParse(Peer.Text.Substring(0, num), out RemoteIP) == false)//远端 IP
             {
-                Infotext.Text = "远端IP错误!";
+                Info = "远端IP错误!";
                 return;
             }
 
@@ -503,7 +506,7 @@ namespace UpperApp
             SetRS(cnt, RecvOrSend.Send);
 
             if (ReDisp.Checked)
-                RecvBox.AppendText(Buf);
+                RecvBoxAddText = Buf;
         }
 
         void AcceptInfo(object o)//TCPLink
@@ -519,7 +522,7 @@ namespace UpperApp
                     Socket tSocket = aSocket.Accept();
                     string point = tSocket.RemoteEndPoint.ToString();
 
-                    Infotext.Text = "连接成功！";
+                    Info = "连接成功！";
 
                     TCPdic.Add(point, tSocket);
                     Peer.Text = point;
@@ -555,7 +558,6 @@ namespace UpperApp
                     {
                         string str = Encoding.UTF8.GetString(buffer, 0, n);
                         string EndPoint = client.RemoteEndPoint.ToString();
-                        str = EndPoint + ":\r\n" + str + "\r\n";
 
                         ShowProcess(str, n, EndPoint);
                     }//if (n == 0)
@@ -623,7 +625,7 @@ namespace UpperApp
             }
             if (!string.IsNullOrEmpty(EndPoint))
                 str = EndPoint + ":\r\n" + str + "\r\n";
-            RecvBox.AppendText(str);
+            RecvBoxAddText = str;
             if (tf != null)
                 tf.WriteLine(getTime() + str);
         }
@@ -724,7 +726,7 @@ namespace UpperApp
                     int n = peer.Receive(buffer);
                     if (n == 0)
                     {
-                        Infotext.Text = "连接断开!";
+                        Info = "连接断开!";
                         BthListenBtn.Text = "连接断开";
                         return;
                     } 
@@ -760,7 +762,7 @@ namespace UpperApp
             BluetoothDeviceInfo device = null;
             foreach (BluetoothDeviceInfo d in devices)
             {
-                RecvBox.AppendText(d.DeviceName + "\r\n");
+                RecvBoxAddText = d.DeviceName + "\r\n";
                 if (d.DeviceName == "HUAWEI P30")
                 {
                     device = d;
@@ -769,7 +771,7 @@ namespace UpperApp
             }
             if (device != null)
             {
-                RecvBox.AppendText(String.Format("Name:{0} Address:{1:C}", device.DeviceName, device.DeviceAddress));
+                RecvBoxAddText = String.Format("Name:{0} Address:{1:C}", device.DeviceName, device.DeviceAddress);
                 try
                 {
                     //BluetoothClient client = new BluetoothClient(this.CreateNewEndpoint(localAddress));
@@ -795,12 +797,12 @@ namespace UpperApp
 
                 // Convert Data to String
                 string data = System.Text.ASCIIEncoding.ASCII.GetString(buffer, 0, 50);
-                RecvBox.AppendText("Receiving data: " + data);
+                RecvBoxAddText = "Receiving data: " + data;
 
                 int i = 0;
                 while (true)
                 {
-                    RecvBox.AppendText("Writing: " + i.ToString());
+                    RecvBoxAddText = "Writing: " + i.ToString();
                     byte[] dataBuffer = System.Text.ASCIIEncoding.ASCII.GetBytes(i.ToString());
 
                     peerStream.Write(dataBuffer, 0, dataBuffer.Length);
@@ -868,10 +870,10 @@ namespace UpperApp
                         SocketIsOpen(true);
                     }//if (comboBox3.Text == "UDP")
                     else
-                        Infotext.Text = "请选择模式";
+                        Info = "请选择模式";
                 }//if (comboBox4.Text != "")
                 else
-                    Infotext.Text = "请选择IP";
+                    Info = "请选择IP";
             }//if (button9.Text == "开始监听")
             else if (btnListen.Text == "停止监听")
             {
@@ -910,7 +912,7 @@ namespace UpperApp
         {
             if(isOpen)
             {
-                Infotext.Text = "开始监听";
+                Info = "开始监听";
                 btnListen.Text = "停止监听";
                 NetType.Enabled = false;
                 HostIP.Enabled = false;
@@ -919,7 +921,7 @@ namespace UpperApp
             }
             else
             {
-                Infotext.Text = "停止监听";
+                Info = "停止监听";
                 btnListen.Text = "开始监听";
                 NetType.Enabled = true;
                 HostIP.Enabled = true;
@@ -928,7 +930,7 @@ namespace UpperApp
 
         private void SendTimer_Tick(object sender, EventArgs e)
         {
-            Infotext.Text = Cnt++.ToString();
+            Info = Cnt++.ToString();
             if (btnAutoSend.Checked && (Cnt >= Counter))
             {
                 StrSend(SendBox.Text);
@@ -945,7 +947,7 @@ namespace UpperApp
                     Counter = int.Parse(Tim.Text) / 100;
                     if (Counter < 1)
                     {
-                        Infotext.Text = "时间间隔过小";
+                        Info = "时间间隔过小";
                         Tim.Text = "1000";
                         Counter = 10;
                     }
@@ -953,7 +955,7 @@ namespace UpperApp
                     btnBegin.Text = "停止";
                 }
                 else
-                    Infotext.Text = "端口未打开!";
+                    Info = "端口未打开!";
             }
             else
             {
@@ -969,7 +971,7 @@ namespace UpperApp
                 {
                     serialPort1.Open();
                     btnSerial.Text = "关闭串口";
-                    Infotext.Text = "串口打开！";
+                    Info = "串口打开！";
                     SerPortItem.Enabled = false;
                     Baud.Enabled = false;
                     rbtnSerial.Checked = true;
@@ -978,13 +980,13 @@ namespace UpperApp
                 {
                     serialPort1.Close();
                     if (!serialPort1.IsOpen)
-                        Infotext.Text = "串口关闭！";
+                        Info = "串口关闭！";
                     btnSerial.Text = "打开串口";
                     SerPortItem.Enabled = true;
                     Baud.Enabled = true;
                 }
             else
-                Infotext.Text = "未选中串口";
+                Info = "未选中串口";
         }
 
         private void Rocker_Click(object sender, EventArgs e)
@@ -1034,7 +1036,7 @@ namespace UpperApp
                         SetRS(buffer.Length, RecvOrSend.Send);
                         if (ReDisp.Checked)
                         {
-                            RecvBox.AppendText(Buf);
+                            RecvBoxAddText = Buf;
                         }
                     }//if (radioButton4.Checked)
                     else if (rbtnNET.Checked && btnListen.Text == "停止监听")
@@ -1045,7 +1047,7 @@ namespace UpperApp
                             {
                                 string ip = Peer.Text;
                                 if (ip == "")
-                                    Infotext.Text = "未选定端口";
+                                    Info = "未选定端口";
                                 else
                                 {
                                     byte[] buffer = Encoding.UTF8.GetBytes(Buf);
@@ -1053,7 +1055,7 @@ namespace UpperApp
                                     SetRS(Buf.Length, RecvOrSend.Send);
                                     if (ReDisp.Checked)
                                     {
-                                        RecvBox.AppendText(Buf);
+                                        RecvBoxAddText = Buf;
                                     }
                                 }
                             }
@@ -1099,7 +1101,7 @@ namespace UpperApp
             LabRoll.Text = zero;
             LabPitch.Text = zero;
             LabDist.Text = zero;
-            Infotext.Text = "数据清除成功";
+            Info = "数据清除成功";
         }
 
         private void MemTimer_Tick(object sender, EventArgs e)
@@ -1176,7 +1178,7 @@ namespace UpperApp
             if (buf != ".")
             {
                 truedist = float.Parse(buf);
-                Infotext.Text = "dist:" + truedist;
+                Info = "dist:" + truedist;
             }
         }
 
@@ -1224,8 +1226,8 @@ namespace UpperApp
             ydist = Math.Sin(Math.PI * angle / 180) * dist;
             px = px + (int)(xdist / xpro);
             py = py + (int)(ydist / ypro);
-            RecvBox.AppendText("坐标点=" + px + "," + py + "\r\n");
-            RecvBox.AppendText("路程=" + xdist + "," + ydist + "\r\n");
+            RecvBoxAddText = "坐标点=" + px + "," + py + "\r\n";
+            RecvBoxAddText = "路程=" + xdist + "," + ydist + "\r\n";
             g.FillEllipse(Brushes.Blue, px, 213 - py, 3, 3);
         }
 
@@ -1306,11 +1308,11 @@ namespace UpperApp
                 dx = p.X - bx;
                 dy = (213 - p.Y) - by;
                 distance = (float)Math.Sqrt(dx * dx + dy * dy * lhp * lhp);
-                RecvBox.AppendText("宽高比=" + lhp + "\r\n" + "锚点距离=" + distance + "\r\n");
+                RecvBoxAddText = "宽高比=" + lhp + "\r\n" + "锚点距离=" + distance + "\r\n";
                 xpro = truedist / distance;
                 ypro = xpro * lhp;
                 label36.Text = p.X + "," + (213 - p.Y);
-                RecvBox.AppendText("横向比值=" + xpro + "\r\n" + "纵向比值=" + ypro + "\r\n");
+                RecvBoxAddText = "横向比值=" + xpro + "\r\n" + "纵向比值=" + ypro + "\r\n";
                 pflag = 2;
             }
         }
