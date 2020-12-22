@@ -480,9 +480,16 @@ namespace UpperApp
             IPEndPoint RemoteIPEndPoint; //远端 IP&Port
             int num = Peer.Text.IndexOf(':');
 
+            if (num < 0)
+            {
+                Info = "请选择IP";
+                MessageBox.Show("请选择IP", "warning");
+                return;
+            }
+
             if (IPAddress.TryParse(Peer.Text.Substring(0, num), out RemoteIP) == false)//远端 IP
             {
-                Info = "远端IP错误!";
+                MessageBox.Show("指定的IP地址有误", "error");
                 return;
             }
 
