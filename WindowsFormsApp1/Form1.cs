@@ -124,10 +124,12 @@ namespace UpperApp
             btn[5] = btnMsg6;
             btn[6] = btnMsg7;
             btn[7] = btnMsg8;
-            //for (int i = 0; i < 8; i++)
-            //{
-            //    btn[i].Click += new EventHandler((sender, e) => { btn_Click(i); });
-            //}
+            /*
+            for (int i = 0; i < 8; i++)
+            {
+                btn[i].Click += new EventHandler((sender, e) => { btn_Click(i); });
+            }
+            /*/
             this.btn[0].Click += new EventHandler((sender, e) => { btn_Click(0); });
             this.btn[1].Click += new EventHandler((sender, e) => { btn_Click(1); });
             this.btn[2].Click += new EventHandler((sender, e) => { btn_Click(2); });
