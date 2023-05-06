@@ -1,4 +1,5 @@
 # UpperAppForJXUSTRobotCommunity
+本人编写的供江西理工大学机器人社使用的上位机程序 
 V5.0
 1.通过串口连接下位机
 2.可部署TCP/UDP服务端以便与下位机或其他设备通信
